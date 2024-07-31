@@ -1,3 +1,4 @@
+import { Logger } from '@nestjs/common'
 import { NestFactory } from '@nestjs/core'
 
 import { AppModule } from './modules/app.module'
@@ -11,5 +12,6 @@ async function bootstrap() {
 
   const PORT = process.env.PORT || 8080
   await app.listen(PORT)
+  Logger.log(`Server is running on http://localhost:${PORT}`, 'Bootstrap')
 }
 bootstrap()
