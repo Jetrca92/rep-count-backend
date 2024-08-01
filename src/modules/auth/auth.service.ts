@@ -1,7 +1,7 @@
-import { BadRequestException, Injectable } from '@nestjs/common'
+import { BadRequestException, Injectable, Logger } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
 import { UsersService } from 'modules/users/users.service'
-import { hash } from 'utils/bcrypt'
+import { compareHash, hash } from 'utils/bcrypt'
 
 import { AuthDto } from './dto'
 import { RegisterDto } from './dto/register.dto'
@@ -9,10 +9,6 @@ import { RegisterDto } from './dto/register.dto'
 @Injectable()
 export class AuthService {
   constructor(private usersService: UsersService, private jwtService: JwtService) {}
-
-  login(dto: AuthDto) {
-    return
-  }
 
   async signup(dto: RegisterDto) {
     if (dto.password !== dto.confirm_password) {
@@ -24,5 +20,22 @@ export class AuthService {
       ...dto,
       password: hashPw,
     })
+  }
+
+  async validateUser(dto: AuthDto): Promise<{ access_token: string }> {
+    const logger = new Logger('ValidateUserFunction')
+    logger.log('Validating user...')
+    const user = await this.usersService.findBy({ email: dto.email })
+    if (!user) {
+      throw new BadRequestException('Invalid credentials')
+    }
+    if (!(await compareHash(dto.password, user.password))) {
+      throw new BadRequestException('Invalid credentials')
+    }
+    logger.log('User is valid')
+    const payload = { sub: user.id, username: user.email }
+    return {
+      access_token: await this.jwtService.signAsync(payload),
+    }
   }
 }
