@@ -1,6 +1,9 @@
 ### GET /tracks
 GET http://localhost:8080/tracks HTTP/1.1
 
+### GET /exercises
+GET http://localhost:8080/exercises HTTP/1.1
+
 ### POST /auth/register
 POST http://localhost:8080/auth/signup HTTP/1.1
 Content-Type: application/json
@@ -29,3 +32,15 @@ Content-Type: application/json
 	"reps": 10,
 	"exerciseId": "b9a3a9a4-6b9b-4b58-80a3-1ef84ee41af1"
 }
+
+### POST /exercises
+POST http://localhost:8080/exercises HTTP/1.1
+Content-Type: application/json
+
+{
+  	"name": "Push-Up"
+}
+
+### DELETE /exercises
+DELETE http://localhost:8080/exercises/8786f303-48d2-4e79-a9f3-d1585e4615a8 HTTP/1.1
+Content-Type: application/json

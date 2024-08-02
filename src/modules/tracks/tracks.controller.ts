@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpCode, HttpStatus, Post } from '@nestjs/common'
+import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Post } from '@nestjs/common'
 import { Track } from 'entities/track.entity'
 
 import { CreateTrackDto } from './dto/create-track.dto'
@@ -18,5 +18,11 @@ export class TracksController {
   @HttpCode(HttpStatus.CREATED)
   async create(@Body() dto: CreateTrackDto): Promise<Track> {
     return this.tracksService.create(dto)
+  }
+
+  @Delete(':id')
+  @HttpCode(HttpStatus.OK)
+  async remove(@Param('id') id: string): Promise<Track> {
+    return this.tracksService.remove(id)
   }
 }
