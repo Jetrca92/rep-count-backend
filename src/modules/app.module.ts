@@ -4,6 +4,7 @@ import { configValidationSchema } from 'config/schema.config'
 
 import { AuthModule } from './auth/auth.module'
 import { DatabaseModule } from './database/database.module'
+import { TracksModule } from './tracks/tracks.module'
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { DatabaseModule } from './database/database.module'
     }),
     DatabaseModule,
     AuthModule,
+    TracksModule,
   ],
   controllers: [],
   providers: [],
